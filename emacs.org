@@ -26,6 +26,7 @@
     - [[#misc][Misc]]
       - [[#customel][custom.el]]
       - [[#autosaving][Autosaving]]
+      - [[#recentf][recentf]]
     - [[#ui][UI]]
       - [[#defaults][Defaults]]
       - [[#theme][Theme]]
@@ -39,6 +40,7 @@
     - [[#swiper][Swiper]]
     - [[#magit][Magit]]
     - [[#projectile][Projectile]]
+      - [[#projectile-councel][projectile-councel]]
     - [[#languages][Languages]]
       - [[#org][Org]]
     - [[#toc-org][Toc-org]]
@@ -185,6 +187,19 @@ I want the auto-save-list directory in my local dir
 (setq auto-save-file-name-transforms `((".*" ,(concat +local-directory "auto-save-list/") t)))
 #+END_SRC
 
+**** recentf
+
+#+BEGIN_SRC emacs-lisp
+(use-package recentf
+  :hook (after-init . recentf-mode)
+  :init
+  (setq recentf-save-file (concat +local-directory "recentf")
+        recentf-max-saved-items 1000
+        recentf-filename-handlers '(file-truename)
+        recentf-auto-cleanup 'never)
+  :config
+  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'"))
+#+END_SRC
 *** UI
 
 **** Defaults
@@ -331,7 +346,40 @@ going to install it and make sure it's loaded immediately.
 
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
-  :demand t)
+  :init
+  (setq projectile-sort-order 'recentf
+        projectile-cache-file (concat +local-directory "projectile.cache")
+        projectile-known-projects-file (concat +local-directory "projectile-bookmarks.eld")
+        projectile-completion-system 'ivy)
+  :config
+  (projectile-mode +1)
+  :general
+  (+leader
+    "pa" 'projectile-toggle-between-implementation-and-test
+    "pb" 'projectile-switch-to-buffer
+    "pd" 'projectile-find-dir
+    "pf" 'projectile-find-file
+    "pt" 'projectile-find-tag
+    "pT" 'projectile-regenerate-tags
+    "pI" 'projectile-invalidate-cache
+    "pk" 'projectile-kill-buffers
+    "pp" 'projectile-switch-project))
+#+END_SRC
+
+**** projectile-councel
+     
+#+BEGIN_SRC emacs-lisp
+(use-package counsel-projectile
+  :general
+  (general-define-key
+   [remap projectile-find-file]        #'counsel-projectile-find-file
+   [remap projectile-find-dir]         #'counsel-projectile-find-dir
+   [remap projectile-switch-to-buffer] #'counsel-projectile-switch-to-buffer
+   [remap projectile-grep]             #'counsel-projectile-grep
+   [remap projectile-ag]               #'counsel-projectile-ag
+   [remap projectile-switch-project]   #'counsel-projectile-switch-project)
+  (+leader
+   "/" #'counsel-projectile-rg))
 #+END_SRC
 
 *** Languages
