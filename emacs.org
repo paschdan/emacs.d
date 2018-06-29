@@ -23,18 +23,21 @@
       - [[#package-settings][Package Settings]]
       - [[#initialize-package-management][Initialize Package Management]]
   - [[#emacs-configuration][Emacs Configuration]]
-    - [[#customel][custom.el]]
-    - [[#autosaving][Autosaving]]
+    - [[#misc][Misc]]
+      - [[#customel][custom.el]]
+      - [[#autosaving][Autosaving]]
     - [[#ui][UI]]
       - [[#defaults][Defaults]]
       - [[#theme][Theme]]
-    - [[#evil][Evil]]
+    - [[#keybindings][Keybindings]]
+      - [[#evil][Evil]]
     - [[#ivy][Ivy]]
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
     - [[#magit][Magit]]
     - [[#projectile][Projectile]]
-    - [[#org][Org]]
+    - [[#languages][Languages]]
+      - [[#org][Org]]
     - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
 
@@ -161,7 +164,8 @@ previously compiled manually then all of the package initialization will still t
 
 ** Emacs Configuration
 
-*** custom.el
+*** Misc
+**** custom.el
 
 #+BEGIN_SRC emacs-lisp
 (setq custom-file (expand-file-name "custom.el" +local-directory))
@@ -170,7 +174,7 @@ previously compiled manually then all of the package initialization will still t
 (load custom-file)
 #+END_SRC
 
-*** Autosaving
+**** Autosaving
 I want the auto-save-list directory in my local dir
 
 #+BEGIN_SRC emacs-lisp
@@ -214,7 +218,8 @@ I want the auto-save-list directory in my local dir
     (set-face-attribute 'mode-line-inactive nil :background "#002b36")))
 #+END_SRC
 
-*** Evil
+*** Keybindings
+**** Evil
 Install, automatically load, and enable evil. It's like vim, but better!
 
 #+BEGIN_SRC emacs-lisp
@@ -269,7 +274,8 @@ going to install it and make sure it's loaded immediately.
   :demand t)
 #+END_SRC
 
-*** Org
+*** Languages
+**** Org
 Let's include a newer version of org-mode than the one that is built in. We're going
 to manually remove the org directories from the load path, to ensure the version we
 want is prioritized instead.
@@ -283,6 +289,29 @@ want is prioritized instead.
 ;; Ensure ELPA org is prioritized above built-in org.
 (require 'cl)
 (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+
+(setq org-structure-template-alist
+      '(("l" "#+BEGIN_SRC emacs-lisp
+?
+#+END_SRC")
+        ("r" "#+BEGIN_SRC ruby
+?
+#+END_SRC")
+        ("x" "#+BEGIN_SRC elixir
+?
+#+END_SRC")
+        ("s" "#+BEGIN_SRC ?
+
+#+END_SRC")
+        ("e" "#+BEGIN_EXAMPLE
+?
+#+END_EXAMPLE")
+        ("q" "#+BEGIN_QUOTE
+?
+#+END_QUOTE")
+        ("c" "#+BEGIN_CENTER
+?
+#+END_CENTER")))
 #+END_SRC
 
 *** Toc-org
