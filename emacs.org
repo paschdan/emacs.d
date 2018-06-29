@@ -7,7 +7,7 @@
 :VISIBILITY: children
 :END:
 
-** Table of Contents :TOC_3_gh:
+** Table of Contents :TOC_4_gh:
 - [[#configuration][Configuration]]
   - [[#about-this-file][About this file]]
   - [[#org-file-tweaks][Org File Tweaks]]
@@ -17,12 +17,18 @@
   - [[#personal-information][Personal Information]]
   - [[#emacs-initialization][Emacs Initialization]]
     - [[#constants][Constants]]
+      - [[#directories][Directories]]
     - [[#settings][Settings]]
     - [[#package-management][Package Management]]
+      - [[#package-settings][Package Settings]]
+      - [[#use-package-settings][Use-Package Settings]]
+      - [[#manually-set-load-path][Manually Set Load Path]]
+      - [[#initialize-package-management][Initialize Package Management]]
   - [[#emacs-configuration][Emacs Configuration]]
     - [[#customel][custom.el]]
     - [[#autosaving][Autosaving]]
     - [[#ui][UI]]
+      - [[#defaults][Defaults]]
   - [[#packages][Packages]]
     - [[#evil][Evil]]
     - [[#ivy][Ivy]]
