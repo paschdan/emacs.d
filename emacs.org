@@ -19,6 +19,8 @@
     - [[#constants][Constants]]
     - [[#settings][Settings]]
     - [[#package-management][Package Management]]
+  - [[#emacs-configuration][Emacs Configuration]]
+    - [[#customel][custom.el]]
   - [[#packages][Packages]]
     - [[#evil][Evil]]
     - [[#ivy][Ivy]]
@@ -172,7 +174,16 @@ previously compiled manually then all of the package initialization will still t
     (setq use-package-always-ensure t))
 #+END_SRC
 
-
+** Emacs Configuration
+*** custom.el
+     
+#+BEGIN_SRC emacs-lisp
+(setq custom-file (expand-file-name "custom.el" +local-directory))
+(unless (file-exists-p custom-file)
+  (write-region "" "" custom-file))
+(load custom-file)
+#+END_SRC
+     
 ** Packages
 
 *** Evil
