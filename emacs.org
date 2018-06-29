@@ -299,9 +299,72 @@ Install, automatically load, and enable evil. It's like vim, but better!
 
 #+BEGIN_SRC emacs-lisp
 (use-package evil
-  :demand t
-  :config
-  (evil-mode 1))
+:init
+(setq evil-mode-line-format nil)
+(setq evil-respect-visual-line-mode t)
+(setq evil-want-Y-yank-to-eol t)
+(setq evil-symbol-word-search t)
+(setq evil-want-C-u-scroll t)
+(setq evil-want-visual-char-semi-exclusive t)
+(setq evil-ex-search-highlight-all nil)
+(evil-mode)
+:config
+(evil-select-search-module 'evil-search-module 'evil-search)
+(mapc #'evil-declare-ignore-repeat
+      '(kill-this-buffer
+        ido-kill-buffer
+        outline-next-visible-heading
+        outline-previous-visible-heading
+        outline-up-heading
+        evil-visualstar/begin-search-forward
+        evil-visualstar/begin-search-backward
+        org-export-dispatch
+        org-end-of-line
+        org-beginning-of-line
+        org-open-at-point
+        org-cycle
+        org-shifttab
+        org-ctrl-c-ctrl-c
+        org-next-visible-heading
+        org-previous-visible-heading
+        split-window-below
+        split-window-below-and-focus
+        split-window-right
+        split-window-right-and-focus
+        evilmi-jump-items))
+(defalias 'evil-visual-update-x-selection 'ignore)
+
+(setq evil-normal-state-cursor '(box "DarkGoldenrod2")
+      evil-insert-state-cursor '((bar . 2) "chartreuse3")
+      evil-emacs-state-cursor '(box "SkyBlue2")
+      evil-replace-state-cursor '((hbar . 2) "chocolate")
+      evil-visual-state-cursor '((hbar . 2) "gray")
+      evil-motion-state-cursor '(box "plum3"))
+
+(setq-default evil-shift-width 2)
+
+(evil-define-motion evil-goto-line (count)
+  "Go to the first non-blank character of line COUNT.
+ default the (truly) last line."
+  :jump t
+  :type line
+  (if (null count)
+      (goto-char (buffer-size))
+    (goto-char (point-min))
+    (forward-line (1- count)))
+  (evil-first-non-blank))
+
+(defun +evil/reselect-paste ()
+  "Go back into visual mode and reselect the last pasted region."
+  (interactive)
+  (cl-destructuring-bind (_ _ _ beg end &optional _)
+      evil-last-paste
+    (evil-visual-make-selection
+     (save-excursion (goto-char beg) (point-marker))
+     end)))
+:general
+(nmap
+  "gp" #'+evil/reselect-paste))
 #+END_SRC
 
 *** Ivy
