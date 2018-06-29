@@ -16,6 +16,7 @@
     - [[#table-of-contents][Table of Contents]]
   - [[#personal-information][Personal Information]]
   - [[#emacs-initialization][Emacs Initialization]]
+    - [[#constants][Constants]]
     - [[#settings][Settings]]
     - [[#package-management][Package Management]]
   - [[#packages][Packages]]
@@ -69,6 +70,17 @@ Let's set some variables with basic user information.
 #+END_SRC
 
 ** Emacs Initialization
+   
+*** Constants
+    
+**** Directories
+We want all generated directories in a .local subdir
+
+#+BEGIN_SRC emacs-lisp
+(setq +emacs-directory (file-truename user-emacs-directory))
+(setq +local-directory (concat +emacs-directory ".local/"))
+(setq +packages-directory (concat +local-directory "packages/"))
+#+END_SRC
 
 *** Settings
 We're going to increase the gc-cons-threshold to a very high number to decrease the load and compile time.
@@ -98,14 +110,14 @@ to not automatically call it on our behalf. Additionally we're setting
 =use-package= will be handling that.
 
 #+BEGIN_SRC emacs-lisp
-  (eval-and-compile
-    (setq load-prefer-newer t
-          package-user-dir "~/.emacs.d/elpa"
-          package--init-file-ensured t
-          package-enable-at-startup nil)
+(eval-and-compile
+  (setq load-prefer-newer t
+        package-user-dir (expand-file-name "elpa" +packages-directory)
+        package--init-file-ensured t
+        package-enable-at-startup nil)
 
-    (unless (file-directory-p package-user-dir)
-      (make-directory package-user-dir t)))
+  (unless (file-directory-p package-user-dir)
+    (make-directory package-user-dir t)))
 #+END_SRC
 
 **** Use-Package Settings
