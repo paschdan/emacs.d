@@ -1,5 +1,5 @@
 #+TITLE: Emacs Literate Configuration
-#+AUTHOR: Your Name Here
+#+AUTHOR: paschdan
 #+PROPERTY: header-args :tangle yes
 
 * Configuration
