@@ -22,6 +22,7 @@
   - [[#emacs-configuration][Emacs Configuration]]
     - [[#customel][custom.el]]
     - [[#autosaving][Autosaving]]
+    - [[#ui][UI]]
   - [[#packages][Packages]]
     - [[#evil][Evil]]
     - [[#ivy][Ivy]]
@@ -192,6 +193,24 @@ I want the auto-save-list directory in my local dir
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-list-file-prefix (concat +local-directory "auto-save-list/.saves-"))
 (setq auto-save-file-name-transforms `((".*" ,(concat +local-directory "auto-save-list/") t)))
+#+END_SRC
+
+*** UI
+
+**** Defaults
+
+#+BEGIN_SRC emacs-lisp
+(blink-cursor-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(setq mouse-highlight nil)
+(setq column-number-mode t)
+(setq-default cursor-in-non-selected-windows nil)
+(setq x-underline-at-descent-line t)
+(setq x-stretch-cursor t)
+(setq frame-resize-pixelwise t)
+(setq inhibit-startup-screen t)
 #+END_SRC
 
 ** Packages
