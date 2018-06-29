@@ -21,6 +21,7 @@
     - [[#package-management][Package Management]]
   - [[#emacs-configuration][Emacs Configuration]]
     - [[#customel][custom.el]]
+    - [[#autosaving][Autosaving]]
   - [[#packages][Packages]]
     - [[#evil][Evil]]
     - [[#ivy][Ivy]]
@@ -175,15 +176,24 @@ previously compiled manually then all of the package initialization will still t
 #+END_SRC
 
 ** Emacs Configuration
+
 *** custom.el
-     
+
 #+BEGIN_SRC emacs-lisp
 (setq custom-file (expand-file-name "custom.el" +local-directory))
 (unless (file-exists-p custom-file)
   (write-region "" "" custom-file))
 (load custom-file)
 #+END_SRC
-     
+
+*** Autosaving
+I want the auto-save-list directory in my local dir
+
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-list-file-prefix (concat +local-directory "auto-save-list/.saves-"))
+(setq auto-save-file-name-transforms `((".*" ,(concat +local-directory "auto-save-list/") t)))
+#+END_SRC
+
 ** Packages
 
 *** Evil
