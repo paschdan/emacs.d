@@ -29,7 +29,10 @@
     - [[#ui][UI]]
       - [[#defaults][Defaults]]
       - [[#theme][Theme]]
+      - [[#which-key][which-key]]
     - [[#keybindings][Keybindings]]
+      - [[#general][General]]
+      - [[#truely-esc][Truely ESC]]
       - [[#evil][Evil]]
     - [[#ivy][Ivy]]
     - [[#counsel][Counsel]]
@@ -218,7 +221,64 @@ I want the auto-save-list directory in my local dir
     (set-face-attribute 'mode-line-inactive nil :background "#002b36")))
 #+END_SRC
 
+**** which-key
+ 
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :demand t
+  :config
+  (setq which-key-sort-order #'which-key-prefix-then-key-order
+        which-key-sort-uppercase-first nil
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-min-display-lines 5)
+  ;; embolden local bindings
+  (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)
+  (which-key-setup-side-window-bottom)
+  (which-key-mode))
+#+END_SRC
 *** Keybindings
+    
+**** General
+
+#+BEGIN_SRC emacs-lisp
+(use-package general
+  :config
+  (general-evil-setup t)
+  (general-auto-unbind-keys)
+
+  (general-create-definer
+    +leader
+    :prefix "SPC"
+    :non-normal-prefix "M-m"
+    :states '(motion insert emacs))
+
+  (general-create-definer
+    +enable-leader
+    :status '(motion normal visual)
+    "SPC" nil)
+
+  (general-create-definer
+    +local-leader
+    :prefix "'"
+    :non-normal-prefix "M-m m"
+    :states '(motion insert emacs))
+
+  (mmap "M-s" #'evil-write))
+#+END_SRC
+**** Truely ESC
+Truely ESC in minibuffers
+
+#+BEGIN_SRC emacs-lisp
+(general-define-key
+ :keymaps '(minibuffer-local-map
+            minibuffer-local-ns-map
+            minibuffer-local-completion-map
+            minibuffer-local-must-match-map
+            minibuffer-local-isearch-map
+            read-expression-map)
+ [escape] 'abort-recursive-edit)
+#+END_SRC
 **** Evil
 Install, automatically load, and enable evil. It's like vim, but better!
 
