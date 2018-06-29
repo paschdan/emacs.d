@@ -39,6 +39,7 @@
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
     - [[#magit][Magit]]
+      - [[#evil-magit][Evil-Magit]]
     - [[#projectile][Projectile]]
       - [[#projectile-councel][projectile-councel]]
     - [[#languages][Languages]]
@@ -400,7 +401,33 @@ functions we invoke regularly outside of magit is called.
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit
-  :commands (magit-status magit-blame magit-log-buffer-file magit-log-all))
+  :init
+  ;; avoid max-specpdl-size error,
+  ;; See also [[id:CF8198D2-285C-4E0C-9548-2EBBD13D5F50][diff-hl + Magit == 'max-lisp-eval-depth' 'lisp nesting exceeds max-lisp-eval-depth {Mac OS X} · Issue #65 · dgutov/diff-hl]]
+  (magit-auto-revert-mode -1)
+  :config
+  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+  :general
+  (+enable-leader
+   :keymaps
+   '(magit-mode-map
+     magit-status-mode-map
+     magit-diff-mode-map
+     magit-process-mode-map
+     magit-blame-read-only-mode-map
+     magit-log-mode-map))
+  (+leader
+    "gb" #'magit-blame
+    "gs" #'magit-status
+    "gi" #'magit-init
+    "gl" #'magit-log-buffer-file))
+#+END_SRC
+
+**** Evil-Magit
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil-magit
+  :after magit)
 #+END_SRC
 
 *** Projectile
