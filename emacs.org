@@ -64,8 +64,8 @@ works property directly on github.
 Let's set some variables with basic user information.
 
 #+BEGIN_SRC emacs-lisp
-(setq user-full-name "Your Name Here"
-      user-mail-address "user@email.com")
+(setq user-full-name "Daniel Paschke"
+      user-mail-address "paschdan@gmail.com")
 #+END_SRC
 
 ** Emacs Initialization
